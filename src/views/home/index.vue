@@ -46,15 +46,15 @@
       <el-header>
         <span class="el-icon-s-fold" @click="toggleMenu()"></span>
         <span class="text">江苏传智播客科技教育有限公司</span>
-        <el-dropdown class="my-dropdown">
+        <el-dropdown class="my-dropdown" @command="changeMenu">
           <span class="el-dropdown-link">
             <img :src="photo" alt />
             {{name}}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>个人设置</el-dropdown-item>
-            <el-dropdown-item>退出登录</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-setting" command="setting">个人设置</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-unlock" command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -86,6 +86,21 @@ export default {
     toggleMenu () {
       // 切换侧边栏展开与收起  默认是展开
       this.isCollapse = !this.isCollapse
+    },
+    setting () {
+      // click 是点击事件  是原生的事件  原生dom支持事件
+      // 期望 把事件绑定在组件解析后的原生dom上  @click.native
+      // this.$router.push({ name: 'article' })
+      this.$router.push('/setting')
+    },
+    logout () {
+      store.clearUser()
+      this.$router.push({ name: 'login' })
+    },
+    // 绑定事件的时候 不加括号  为了接受默认参数
+    changeMenu (menuType) {
+      // menuType 是变量  值 setting  logout
+      this[menuType]()
     }
   }
 }
