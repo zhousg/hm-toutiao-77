@@ -3,10 +3,7 @@
     <!-- 筛选条件 -->
     <el-card>
       <div slot="header">
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>内容管理</el-breadcrumb-item>
-        </el-breadcrumb>
+        <my-bread>内容管理</my-bread>
       </div>
       <el-form label-width="80px" size="small">
         <el-form-item label="状态：">
@@ -43,11 +40,20 @@
       </el-form>
     </el-card>
     <!-- 筛选结果 -->
+    <my-test>
+      <!-- slot="content" 指定插槽 -->
+      <!-- slot-scope="scope" scope是slot插槽上所有的自定义属性的集合{msg:'my-test的数据'} -->
+      <div slot="content" slot-scope="scope">content 得到组件内部数据：{{scope.msg}}</div>
+      <div slot="footer">footer</div>
+    </my-test>
   </div>
 </template>
 
 <script>
+import MyTest from '@/components/my-test'
+import MyBread from '@/components/my-bread'
 export default {
+  components: { MyTest, MyBread },
   data () {
     return {
       // 筛选项表单数据  提交给后台参数
