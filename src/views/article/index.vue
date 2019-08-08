@@ -16,14 +16,9 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="频道：">
-          <el-select clearable v-model="reqParams.channel_id" placeholder="请选择">
-            <el-option
-              v-for="item in channelOptions"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            ></el-option>
-          </el-select>
+          <!-- 使用自己组件 -->
+          <!-- v-model 背后 :value  @input -->
+          <my-channel v-model="reqParams.channel_id"></my-channel>
         </el-form-item>
         <el-form-item label="日期：">
           <el-date-picker
@@ -116,18 +111,7 @@ export default {
       total: 0
     }
   },
-  // computed 计算属性使用场景：当你需要一个新数据，需要依赖data中的数据。
-  // watch 侦听器的使用场景：当你需要监听某一个属性的变化，去做一些开销较大操作(异步操作)
-  watch: {
-    'reqParams.channel_id': function (newVal, oldVal) {
-      if (newVal === '') {
-        this.reqParams.channel_id = null
-      }
-    }
-  },
   created () {
-    // 获取频道下拉选项数据
-    this.getChannelOptions()
     // 获取文章列表数据
     this.getArticles()
   },
@@ -173,12 +157,6 @@ export default {
       // 修改获取数据的页码
       this.reqParams.page = newPage
       this.getArticles()
-    },
-    async getChannelOptions () {
-      const {
-        data: { data }
-      } = await this.$http.get('channels')
-      this.channelOptions = data.channels
     },
     async getArticles () {
       // axios get传参  url?key=value&key1=value1 ... 麻烦
