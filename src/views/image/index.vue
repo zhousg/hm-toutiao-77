@@ -15,8 +15,12 @@
         <div class="img_item" v-for="item in images" :key="item.id">
           <img :src="item.url" alt />
           <div class="foot" v-show="!reqParams.collect">
-            <span class="el-icon-star-off" :class="{selected:item.is_collected}"></span>
-            <span class="el-icon-delete"></span>
+            <span
+              @click="toggleCollect(item)"
+              class="el-icon-star-off"
+              :class="{selected:item.is_collected}"
+            ></span>
+            <span @click="deleteImage(item.id)" class="el-icon-delete"></span>
           </div>
         </div>
       </div>
@@ -80,6 +84,28 @@ export default {
     this.getImages()
   },
   methods: {
+    // 删除
+    deleteImage (id) {
+      this.$confirm('老铁，此操作将永久删除该素材, 是否继续?', '温馨提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        await this.$http.delete(`user/images/${id}`)
+        this.$message.success('删除成功')
+        this.getImages()
+      }).catch(() => {})
+    },
+    // 添加收藏 取消收藏
+    async toggleCollect (item) {
+      const {
+        data: { data }
+      } = await this.$http.put(`user/images/${item.id}`, { collect: !item.is_collected })
+      // 提示
+      this.$message.success(data.collect ? '添加收藏成功' : '取消收藏成功')
+      // 更新当前图片状态
+      item.is_collected = data.collect
+    },
     // 上传成功
     handleSuccess (res) {
       // 1. 获取图片地址显示img标签
