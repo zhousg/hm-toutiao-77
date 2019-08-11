@@ -24,6 +24,7 @@
         </el-table-column>
       </el-table>
       <el-pagination
+        style="margin-top:20px"
         v-if="total > reqParams.per_page"
         background
         layout="prev, pager, next"
