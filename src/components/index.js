@@ -4,6 +4,8 @@ import MyBread from '@/components/my-bread'
 import MyTest from '@/components/my-test'
 import MyChannel from '@/components/my-channel'
 import MyImage from '@/components/my-image'
+import COMA from '@/components/com-a'
+import COMB from '@/components/com-b'
 
 // vue插件 暴露一个对象  对象中有一个选项  install 安装意思
 export default {
@@ -14,5 +16,8 @@ export default {
     Vue.component(MyTest.name, MyTest)
     Vue.component(MyChannel.name, MyChannel)
     Vue.component(MyImage.name, MyImage)
+    // 测试组件
+    Vue.component(COMA.name, COMA)
+    Vue.component(COMB.name, COMB)
   }
 }
